@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Whenever a status is written to the Status table, the Contract table needs to be updated for the specified contract code.
+  This script sets up a rule that listens for every status event and triggers a lambda function that updates the contract through the AppSync Api
+
+Resources:
+
+  # this is a custom policy that can be attached to a role
+  # this policy allows access to AppSync GraphQL endpoint
+
+
+  # Role for lambda function execution
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: Lamda-Role-Demo
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      # what the lambda function can have access to
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+  MyFunction:
+    Type: AWS::Serverless::Function
+    DependsOn: 
+      - LambdaRole
+    Properties:
+      Description: Receives a Status Event and updates the contract in Contract table with this status
+      FunctionName: MyLambdaFunction
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 1024
+      Timeout: 20
+      Role: !GetAtt LambdaRole.Arn
+      CodeUri: ./myfunction
+
+      

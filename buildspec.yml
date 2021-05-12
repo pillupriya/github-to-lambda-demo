@@ -5,11 +5,12 @@ phases:
       nodejs: 12 
   build:
     commands:
-      - npm install
-      - echo "Zipping deployment package..."
-      - zip -r function.zip .
+      - echo "Build Started..."
+      - find . -maxdepth  2 -name package.json -execdir npm i \
   post_build:
     commands:
-      - echo "Updating lambda Function..."
-      - aws lambda update-function-code --function-name github-to-lambda-demo --zip-file fileb://function.zip
+      - echo "Cloudformation Started..."
+      - aws cloudformation package --template-file update-status.yaml --s3-bucket githubtolambdabucket --output-template-file output.yaml
+      - aws cloudformation deploy --template-file .\output.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name myStackNameDemo
+      # - aws lambda update-function-code --function-name github-to-lambda-demo --zip-file fileb://function.zip
       - echo "DONE!!"
