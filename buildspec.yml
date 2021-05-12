@@ -6,7 +6,8 @@ phases:
   build:
     commands:
       - echo "Build Started..."
-      - find . -maxdepth  2 -name package.json -execdir npm i \
+      # - find . -maxdepth  2 -name package.json -execdir npm i \
+      - npm --prefix ./myfunction install ./myfunction
   post_build:
     commands:
       - echo "Cloudformation Started..."
