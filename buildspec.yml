@@ -6,11 +6,10 @@ phases:
   build:
     commands:
       - echo "Build Started..."
-      - find . -maxdepth  2 -name package.json -execdir npm i \
+      - npm --prefix ./myfunction install ./myfunction
   post_build:
     commands:
       - echo "Cloudformation Started..."
       - aws cloudformation package --template-file update-status.yaml --s3-bucket githubtolambdabucket --output-template-file output.yaml
-      - aws cloudformation deploy --template-file .\output.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name myStackNameDemo
-      # - aws lambda update-function-code --function-name github-to-lambda-demo --zip-file fileb://function.zip
+      - aws cloudformation deploy --template-file /codebuild/output/**/src/github.com/pillupriya/github-to-lambda-demo/output.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name myStackNameDemo
       - echo "DONE!!"
