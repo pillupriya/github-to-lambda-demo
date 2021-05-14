@@ -11,7 +11,7 @@ phases:
     commands:
       - pwd
       - ls -al
-      - aws lambda update-function-code --function-name github-to-lambda-demo --zip-file fileb:s3://code-builds-on-qa/myfunction_QA
+      - aws lambda update-function-code --function-name github-to-lambda-demo --zip-file fileb://code-builds-on-qa/myfunction_QA
 artifacts:
   files:
     - '**/*'
