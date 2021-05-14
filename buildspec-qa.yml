@@ -2,14 +2,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 12 
+      nodejs: 12
   build:
     commands:
-      - echo "Build Started..."
+      - echo Build started on `date`
       - npm --prefix ./myfunction install ./myfunction
   post_build:
     commands:
-      - echo "Cloudformation Started..."
-      - aws cloudformation package --template-file update-status.yaml --s3-bucket githubtolambdabucket --output-template-file output.yaml
-      - aws cloudformation deploy --template-file /codebuild/output/**/src/github.com/pillupriya/github-to-lambda-demo/output.yaml --capabilities CAPABILITY_NAMED_IAM --stack-name myStackNameDemo
-      - echo "DONE!!"
+      - pwd
+      - ls -al
+artifacts:
+  files:
+    - '**/*'
