@@ -11,5 +11,5 @@ phases:
     commands:
       - echo "Cloudformation Started..."
       - aws cloudformation package --template-file update-status.yaml --s3-bucket githubtolambdabucket --output-template-file output.yaml
-      - aws cloudformation deploy --template-file /codebuild/output/**/src/github.com/pillupriya/github-to-lambda-demo/output.yaml --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --stack-name myStackNameDemo --tags Key1=Value1 Key2=Value2 --role-arn arn:aws:iam::286367274205:role/service-role/agnes
+      - aws cloudformation deploy --template-file /codebuild/output/**/src/github.com/pillupriya/github-to-lambda-demo/output.yaml --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND --stack-name myStackNameDemo --tags Key1=Value1 Key2=Value2 --role-arn aws:iam::286367274205:role/service-role/agnes
       - echo "DONE!!"
